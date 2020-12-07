@@ -8,6 +8,10 @@ on:
         required: false
         default: 'OK'
 
+env:
+  DRAWIO_DISABLE_UPDATE: true
+  DRAWIO_ENV: dev
+
 jobs:
   compile:
     runs-on: ubuntu-latest

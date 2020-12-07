@@ -1,0 +1,26 @@
+name: Using npm
+
+on:
+  push:
+
+env:
+  DRAWIO_VERSION: 13.11.0
+  DRAWIO_REPO: jgraph/drawio
+  DRAWIO_DISABLE_UPDATE: true
+  DRAWIO_ENV: dev
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        name: Get drawio
+        with:
+          repository: ${{ env.DRAWIO_REPO }}
+          ref: refs/tags/v${{ env.DRAWIO_VERSION }}
+      - name: Instaling drawio
+        timeout-minutes: 3
+        run: |
+          cd src/main/webapp
+          yarn install
+          npm start -- --help

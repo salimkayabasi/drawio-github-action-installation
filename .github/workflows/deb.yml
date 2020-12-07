@@ -1,11 +1,18 @@
 name: Using Deb
 
 on:
-  push:
+  workflow_dispatch:
+    inputs:
+      drwaio:
+        description: 'Run tests'
+        required: false
+        default: 'OK'
 
 env:
   DISPLAY: ':0.0'
   DRAWIO_VERSION: 13.9.9
+  DRAWIO_DISABLE_UPDATE: true
+  DRAWIO_ENV: dev
 
 jobs:
   compile:
