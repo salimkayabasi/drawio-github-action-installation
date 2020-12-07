@@ -1,0 +1,20 @@
+name: Using Deb
+
+on:
+  push:
+
+env:
+  DISPLAY: ':0.0'
+  DRAWIO_VERSION: 13.9.9
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instaling drawio
+        timeout-minutes: 3
+        run: |
+          wget https://github.com/jgraph/drawio-desktop/releases/download/v${{ env.DRAWIO_VERSION }}/draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
+          sudo dpkg -i draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb || sudo apt -y -f install
+          sudo rm draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
+          drawio --help

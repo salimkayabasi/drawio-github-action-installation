@@ -1,10 +1,10 @@
-name: Draw.io Compiler
+name: Using Snap
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       drwaio:
-        description: 'Run tests'     
+        description: 'Run tests'
         required: false
         default: 'OK'
 
