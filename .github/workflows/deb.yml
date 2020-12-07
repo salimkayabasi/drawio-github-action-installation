@@ -21,7 +21,11 @@ jobs:
       - name: Instaling drawio
         timeout-minutes: 3
         run: |
-          wget https://github.com/jgraph/drawio-desktop/releases/download/v${{ env.DRAWIO_VERSION }}/draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
-          sudo dpkg -i draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb || sudo apt -y -f install
+          DEBIAN_FRONTEND=noninteractive sudo apt-get -y install curl libnotify4 libnss3 libappindicator3-1 libsecret-1-0
+          curl -LO https://github.com/jgraph/drawio-desktop/releases/download/v${{ env.DRAWIO_VERSION }}/draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
+          sudo dpkg -i draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
           sudo rm draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
+          sudo chmod +4755 /opt/draw.io/chrome-sandbox
+          sudo apt-get install -y xvfb
+          echo "#!/bin/sh\nxvfb-run /usr/bin/drawio \"\${@}\"" > /usr/local/bin/drawio && chmod +x /usr/local/bin/drawio
           drawio --help
