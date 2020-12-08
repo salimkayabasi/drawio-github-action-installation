@@ -1,6 +1,7 @@
 name: Using Snap
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       drwaio:
@@ -11,6 +12,8 @@ on:
 env:
   DRAWIO_DISABLE_UPDATE: true
   DRAWIO_ENV: dev
+  DISPLAY: :99.0
+  DRAWIO_VERSION: 13.9.9
 
 jobs:
   compile:
@@ -19,5 +22,7 @@ jobs:
       - name: Instaling drawio
         timeout-minutes: 3
         run: |
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          sudo apt-get install libappindicator3-1
           sudo snap install drawio
           drawio --help

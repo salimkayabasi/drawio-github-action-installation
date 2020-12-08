@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Instaling drawio
+        timeout-minutes: 3
         run: |
           sudo apt-get install libappindicator3-1
           wget https://github.com/jgraph/drawio-desktop/releases/download/v${{ env.DRAWIO_VERSION }}/draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
