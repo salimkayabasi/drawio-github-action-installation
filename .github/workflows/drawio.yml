@@ -1,0 +1,52 @@
+name: Installing Drawio
+
+on:
+  push:
+
+env:
+  DRAWIO_DISABLE_UPDATE: true
+  DISPLAY: :99.0
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        name: Get drawio
+        with:
+          repository: jgraph/drawio
+          ref: refs/tags/v13.11.0
+      - name: Instaling drawio
+        timeout-minutes: 3
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          cd src/main/webapp
+          yarn install
+          npm start -- --help
+  snap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instaling drawio
+        timeout-minutes: 3
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          sudo mkdir /run/user/1001
+          sudo chmod -R 777 /run/user/1001
+          sudo snap install drawio
+          drawio --help
+  deb:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instaling drawio
+        timeout-minutes: 3
+        env:
+          DRAWIO_VERSION: 13.9.9
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          sudo apt-get install libappindicator3-1
+          wget https://github.com/jgraph/drawio-desktop/releases/download/v${{ env.DRAWIO_VERSION }}/draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
+          sudo dpkg -i draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
+          sudo rm draw.io-amd64-${{ env.DRAWIO_VERSION }}.deb
+      - name: get help
+        run: |
+          drawio --help
